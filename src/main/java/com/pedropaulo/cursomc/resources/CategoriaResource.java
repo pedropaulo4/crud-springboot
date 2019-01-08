@@ -23,10 +23,6 @@ public class CategoriaResource {
 		
 		Categoria categoria1 = service.buscar(id);
 		return ResponseEntity.ok().body(categoria1);
-		
-		
-		
-		
 	}
 
 
