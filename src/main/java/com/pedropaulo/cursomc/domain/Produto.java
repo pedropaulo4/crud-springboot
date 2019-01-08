@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Produto implements Serializable {
 
@@ -23,7 +25,10 @@ public class Produto implements Serializable {
 	private Integer id;
 	private String nome;
 	private double preco;
-// informa a tabela do banco de dados que vai fazer o meio de campo entre tabela Produto e Categoria
+/* informa a tabela do banco de dados que vai fazer o meio de campo entre tabela Produto e Categoria
+ * @JsonBackReference: Do outro lado da associação ja foi buscado os objetos, ai ele omite a lista de categorias de cada produto
+ */
+	@JsonBackReference
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA",
 	joinColumns = @JoinColumn(name = "produto_id"),
