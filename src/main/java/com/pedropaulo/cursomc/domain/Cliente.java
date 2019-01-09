@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pedropaulo.cursomc.domain.enums.TipoCliente;
 
 @Entity
@@ -25,6 +26,7 @@ public class Cliente implements Serializable{
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String nome;
 	private String email;
 	private String cpfOuCnpj;
@@ -34,10 +36,9 @@ public class Cliente implements Serializable{
 	@CollectionTable(name = "TELEFONE") // tabela auxiliar no banco de dados
 	private Set<String> telefones = new HashSet<>();// conjunto de string que não deixa repetição
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
-	
-	
 	
 	public Cliente() {
 		
@@ -136,9 +137,5 @@ public class Cliente implements Serializable{
 		return true;
 	}
 
-	
-
-
-	
 
 }
