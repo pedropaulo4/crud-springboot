@@ -13,6 +13,7 @@ import com.pedropaulo.cursomc.domain.Cidade;
 import com.pedropaulo.cursomc.domain.Cliente;
 import com.pedropaulo.cursomc.domain.Endereco;
 import com.pedropaulo.cursomc.domain.Estado;
+import com.pedropaulo.cursomc.domain.ItemPedido;
 import com.pedropaulo.cursomc.domain.Pagamento;
 import com.pedropaulo.cursomc.domain.PagamentoComBoleto;
 import com.pedropaulo.cursomc.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.pedropaulo.cursomc.repository.CidadeRepository;
 import com.pedropaulo.cursomc.repository.ClienteRepository;
 import com.pedropaulo.cursomc.repository.EnderecoRepository;
 import com.pedropaulo.cursomc.repository.EstadoRepository;
+import com.pedropaulo.cursomc.repository.ItemPedidoRepository;
 import com.pedropaulo.cursomc.repository.PagamentoRepository;
 import com.pedropaulo.cursomc.repository.PedidoRepository;
 import com.pedropaulo.cursomc.repository.ProdutoRepository;
@@ -56,6 +58,10 @@ public class CursomcApplication implements CommandLineRunner { // permite implem
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
+
 
 
 	public static void main(String[] args) {
@@ -113,8 +119,24 @@ public void run(String... args) throws Exception {
 	Pagamento pto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
 	Pagamento pto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
 	
+	ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+	ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+	ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+	
+	
+	
 	ped1.setPagamento(pto1);
 	ped2.setPagamento(pto2);
+	
+	ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+	ped2.getItens().addAll(Arrays.asList(ip3));
+	
+	p1.getItens().addAll(Arrays.asList(ip1));
+	p2.getItens().addAll(Arrays.asList(ip3));
+	p3.getItens().addAll(Arrays.asList(ip2));
+	
+	
+	
 	
 	cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
 	
@@ -128,6 +150,7 @@ public void run(String... args) throws Exception {
 	enderecoRepository.saveAll(Arrays.asList(e1,e2));
 	pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 	pagamentoRepository.saveAll(Arrays.asList(pto1, pto2));
+	itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
 	
 	
 	
