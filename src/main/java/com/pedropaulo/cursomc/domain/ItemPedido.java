@@ -5,24 +5,27 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido implements Serializable {
-	
-	
+
+
 	private static final long serialVersionUID = 1L;
 
-	
+
 	// id embutido em um tipo auxiliar, pq usa a classe auxiliar
-    @EmbeddedId
+	@EmbeddedId
+	@JsonIgnore
 	private ItemPedidoPK id = new ItemPedidoPK();
-	
-	
+
+
 	private Double desconto;
 	private Integer quantidade;
 	private Double preco;
-	
+
 	public ItemPedido() {
-		
+
 	}
 
 	public ItemPedido(Pedido pedido,Produto produto, Double desconto, Integer quantidade, Double preco) {
@@ -33,10 +36,10 @@ public class ItemPedido implements Serializable {
 		this.quantidade = quantidade;
 		this.preco = preco;
 	}
-	
-	
-	// Ter acesso direto ao pedido e produto, fora da classe ItemPedido
 
+
+	// Ter acesso direto ao pedido e produto, fora da classe ItemPedido
+	@JsonIgnore // tudo que começa com get, ele serializa.
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
@@ -44,8 +47,8 @@ public class ItemPedido implements Serializable {
 	public Produto getProduto() {
 		return id.getProduto();
 	}
-	
-	
+
+
 	public Double getDesconto() {
 		return desconto;
 	}
@@ -94,7 +97,7 @@ public class ItemPedido implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
+
+
 
 }
