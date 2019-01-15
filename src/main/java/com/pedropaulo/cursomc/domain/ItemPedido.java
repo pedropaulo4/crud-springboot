@@ -39,7 +39,7 @@ public class ItemPedido implements Serializable {
 
 
 	// Ter acesso direto ao pedido e produto, fora da classe ItemPedido
-	@JsonIgnore // tudo que começa com get, ele serializa.
+	@JsonIgnore // tudo que começa com get, ele serializa, pra nao puxar o pedido
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
